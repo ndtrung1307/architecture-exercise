@@ -322,14 +322,14 @@ class ReportManage{
     public void Export()
     {
          ExportManage exportManage =  new ExportManage();
-         exportManage.exportToEmail(email,this.content);
+         exportManage.exportToScreen(this.content);
     }
 }
 
 
 class ExportManage{
-	public void exportToEmail(String email, String reportContent){
-		// Export report to email
+	public void exportToScreen(String reportContent){
+		System.out.println(reportContent);
 	}
 }
 
@@ -338,11 +338,11 @@ class ExportManage{
 
 class ReportManage{
 	String content;
-	ExportHandle exportHandler;
+	ExportMethodHandler exportHandler;
 	...
 
 
-    public void setExportHandler(ExportHandle handler)
+    public void setExportHandler(ExportMethodHandler handler)
     {
     	this.exportHandler =  handler;
     }
@@ -354,18 +354,19 @@ class ReportManage{
 }
 
 
-interface ExportMethodHandle {
+interface ExportMethodHandler {
 	public void export(String reportContent);
 }
 
 class exportToLog implements ExportMethodHandle{
 	public void export(String reportContent){
-		// Export report to Log
+		Logger logger = new Logger();
+		logger.log(reportContent);
 	}
 }
 
 class exportToScreen implements ExportMethodHandle{
 	public void export(String reportContent){
-		// Export report to Screen
+		System.out.println(reportContent);
 	}
 }
