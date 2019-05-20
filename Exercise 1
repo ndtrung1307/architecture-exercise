@@ -1,0 +1,371 @@
+//Exercise 1: Example for S.O.L.I.D Principles.
+
+//1. S - Single-responsiblity principle
+
+1/ The code that violates the principle.
+
+public class Notice(){
+	private String content;
+	private Time date;
+	public void __construct(String content, Time date){
+		this.content = content;
+		this.date = date;
+	}
+   	public void getContent() {
+	    return content;
+	}
+
+	public void print(){
+		System.out.println(this.content);
+	}
+}
+
+public static void main(String[] args) {
+	Notice notice = new Notice("abc",time);
+	notice.print();
+}
+
+2/ The code to fix that violation.
+
+public class Notice(){
+	private String content;
+	private Time date;
+	public void __construct(String content, Time date){
+		this.content = content;
+		this.date = date;
+	}
+   	public void getContent() {
+	    return content;
+	}
+}
+
+public class Printer() {
+	public void printNotice(Notice notice){
+		System.out.println(notice.getContent);
+	}
+}
+
+public static void main(String[] args) {
+	Notice notice = new Notice("abc",time);
+	Printer printer = new printer();
+	printer.printNotice(notice);
+}	
+
+//2. O - Open-closed principle
+
+1/ The code that violates the principle.
+
+class ConditionElement{
+	protected String value;
+	protected String type;
+	
+	public ConditionElement(String value, String type){
+		this.setValue(value);
+		this.setType(type);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public boolean validValue() {
+
+		if (type.equals("Expression")) {
+			if (this.value.isEmpty() || this.value.length() <= 0){
+				return false;
+			} 
+			else if (!((this.value.equals(Character.toString('('))) || (this.value.equals(Character.toString(')'))))) {
+				return false;
+			}			
+		} else (type.equals("Operator")){
+			if (this.value.isEmpty() || this.value.length() <= 0){
+				return false;
+			}
+			else if (!(isLogicalOperator(this.value) || isOperator(this.value))) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+public class main {
+	
+	public static void main(String[] args) {
+		private List<ConditionElement> _lstElements = new ArrayList<ConditionElement>();
+		_lstElements.add(new ConditionElement("(","Expression"));
+		_lstElements.add(new ConditionElement("AND","Operator"));
+		for (element : _lstElements) {
+			element.validValue();
+		}
+	}
+}
+
+2/ The code to fix that violation.
+
+class ConditionElement{
+	protected String value;
+	protected String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public boolean validValue() {
+		return true;
+	}
+}
+
+class Expression extends ConditionElement{
+		
+	public Expression (String value) {
+		this.value = value;
+	}
+	
+	public boolean validValue() {
+		if (this.value.isEmpty() || this.value.length() <= 0) return false;
+		else if (!((this.value.equals(Character.toString('('))) || (this.value.equals(Character.toString(')'))))) {
+			return false;
+		}
+		this.type = "Expression";
+		return true;
+	}
+}
+
+
+class Operator extends ConditionElement{
+	
+	public Operator (String value) {
+		this.value = value;
+	}
+	
+	public boolean validValue() {
+		if (this.value.isEmpty() || this.value.length() <= 0) return false;
+		else if (!(isLogicalOperator(this.value) || isOperator(this.value))) {
+			return false;
+		}
+		this.type = "Operator";
+		return true;
+	}	
+}
+
+public class main {
+	
+	public static void main(String[] args) {
+		private List<ConditionElement> _lstElements = new ArrayList<ConditionElement>();
+		_lstElements.add(new Expression("("));
+		_lstElements.add(new Operator("AND"));
+		for (element : _lstElements) {
+			element.validValue();
+		}
+	}
+}
+
+//3. L - Liskov substitution principle
+
+1/ The code that violates the principle.
+
+class Employee
+{
+    ...
+ 
+    int countSocialinsurance()
+    {
+    }
+}
+ 
+class OfficialEmployee extends Employee
+{
+    int countSocialinsurance()
+    {
+       return this.salary - (this.salary*15/100);
+    }
+}
+
+class ParttimeEmployee extends Employee
+{
+    int countSocialinsurance()
+    {
+       return this.salary - (this.salary*10/100);
+    }
+}
+ 
+class InternEmployee extends Employee
+{
+    int countSocialinsurance()
+    {
+        throw Exception("Not Allowed Action!!!");
+    }
+}
+
+
+2/ The code to fix that violation.
+
+class Employee
+{
+    ...
+}
+ 
+interface EmployeeMustPayTax
+{
+    int countSocialinsurance();
+}
+
+class OfficialEmployee extends Employee implements EmployeeMustPayTax
+{
+    int countSocialinsurance()
+    {
+       return this.salary - (this.salary*15/100);
+    }
+}
+
+class ParttimeEmployee extends Employee implements EmployeeMustPayTax
+{
+    int countSocialinsurance()
+    {
+       return this.salary - (this.salary*10/100);
+    }
+}
+ 
+class InternEmployee extends Employee
+{
+    ...
+}
+
+//4. I - Interface segregation principle
+
+1/ The code that violates the principle.
+
+interface TransportVehicle
+{
+    void fly();
+    void moveOnWater();
+    void runOnTheGround();
+}
+
+class Plane implements TransportVehicle
+{
+    public void fly()
+    {
+         //Fly
+    }
+    public void moveOnWater()
+    {
+        throw new NotSupportedException();
+    }
+    public void runOnTheGround()
+    {
+         // Run on the Ground
+    }
+}
+
+2/ The code to fix that violation.
+
+interface RoadVehicles
+{
+    void runOnTheGround();
+}
+
+interface AirwayVehicles
+{
+    void fly();
+}
+
+interface WaterwayVehicles
+{
+    void moveOnWater();
+}
+
+class SeaPlane implements AirwayVehicles, WaterwayVehicles
+{
+    public void fly()
+    {
+         //Fly
+    }
+    public void moveOnWater()
+    {
+        // Move On Water
+    }
+}
+
+//5. D - Dependency Inversion Principle
+
+1/ The code that violates the principle.
+
+class ReportManage{
+	String content;
+	...
+    public void Export()
+    {
+         ExportManage exportManage =  new ExportManage();
+         exportManage.exportToEmail(email,this.content);
+    }
+}
+
+
+class ExportManage{
+	public void exportToEmail(String email, String reportContent){
+		// Export report to email
+	}
+}
+
+
+2/ The code to fix that violation.
+
+class ReportManage{
+	String content;
+	ExportHandle exportHandler;
+	...
+
+
+    public void setExportHandler(ExportHandle handler)
+    {
+    	this.exportHandler =  handler;
+    }
+
+    public void Export()
+    {
+        exportHandler.export(emailOrPrinterAddress,this.content);
+    }
+}
+
+
+interface ExportMethodHandle {
+	public void export(String emailOrPrinterAddress, String reportContent);
+}
+
+class exportToEmail{
+	public void export(String email, String reportContent){
+		// Export report to email
+	}
+}
+
+class exportByPrinter{
+	public void export(String printerAddress, String reportContent){
+		// Export report by printer
+	}
+}
