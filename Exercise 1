@@ -349,23 +349,23 @@ class ReportManage{
 
     public void Export()
     {
-        exportHandler.export(emailOrPrinterAddress,this.content);
+        exportHandler.export(this.content);
     }
 }
 
 
 interface ExportMethodHandle {
-	public void export(String emailOrPrinterAddress, String reportContent);
+	public void export(String reportContent);
 }
 
-class exportToEmail{
-	public void export(String email, String reportContent){
-		// Export report to email
+class exportToLog implements ExportMethodHandle{
+	public void export(String reportContent){
+		// Export report to Log
 	}
 }
 
-class exportByPrinter{
-	public void export(String printerAddress, String reportContent){
-		// Export report by printer
+class exportToScreen implements ExportMethodHandle{
+	public void export(String reportContent){
+		// Export report to Screen
 	}
 }
